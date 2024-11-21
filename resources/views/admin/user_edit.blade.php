@@ -75,7 +75,7 @@
                     </div>
                 @endif
                 <div class="card-body">
-                    <form method="POST" action="#" enctype="multipart/form-data">
+                    <form method="POST" action="{{route('admin_detail_update',$data->id)}}" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">
                             <div class="col">
@@ -97,7 +97,7 @@
                             </div>
                             <div class="col">
                                 <label for="contact" class="form-label">Contact Number</label>
-                                <input type="tel" class="form-control" id="contact" name="" placeholder="1234567890"
+                                <input type="tel" class="form-control" id="contact" name="contact" placeholder="1234567890"
                                     required="" value="{{$data->contact}}">
                             </div>
 

@@ -57,6 +57,39 @@ class AdminController extends Controller
         return redirect()->route("user_list")->with('success', 'Profile image updated successfully!');
     }
 
+    public function admin_detail_update(Request $request, string $id)
+    {
+        // Find the user by ID
+        $user = User::find($id);
+    
+        // Validate the request data
+        $request->validate([
+            'fname' => 'required|min:2|max:10|string',
+            'lname' => 'required|min:2|max:10|string',
+            'email' => 'required|email',
+            'contact' => 'numeric|nullable',
+            'gender' => 'required|in:Male,Female',
+            'address' => 'nullable|string|max:100',
+            'country' => 'required',
+        ]);
+    
+        // Update user details
+        $user->update([
+            'fname' => $request->fname,
+            'lname' => $request->lname,
+            'email' => $request->email,
+            'contact' => $request->contact,
+            'gender' => $request->gender,
+            'address' => $request->address,
+            'country' => $request->country,
+        ]);
+    
+        // Redirect with success message
+        return redirect()->route('user_list')->with('success', 'Your details were updated successfully!');
+    }
+    
+
+
 
     public function add_user()
     {
@@ -67,7 +100,6 @@ class AdminController extends Controller
 
     public function add_user_data(Request $request)
     {
-
         $this->validate($request, [
             'fname' => 'required|min:2|max:10|string',
             'lname' => 'required|min:2|max:10|string|',
@@ -84,23 +116,17 @@ class AdminController extends Controller
         $imgName = 'lv_' . rand() . '.' . $request->profile->extension();
         $request->profile->move(public_path('profiles/'), $imgName);
         $requestData['profile'] = $imgName;
-
         $requestData['password'] = Hash::make($request->password);
         $requestData['role_id'] = User::USER_ROLE;
         $user = User::create($requestData);
-
-
-        // dd($request->all());
         return redirect()->route('user_list')->with('success', 'User Created Successfully.');
-
-
-
     }
 
-    public function user_delet(Request $request,string $id){
+    public function user_delet(Request $request, string $id)
+    {
         $user = User::find($id);
         $user->delete();
         return redirect()->route('user_list');
     }
-    
+
 }
