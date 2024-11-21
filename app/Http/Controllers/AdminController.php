@@ -97,7 +97,7 @@ class AdminController extends Controller
 
     }
 
-    public function user_delet(string $id){
+    public function user_delet(Request $request,string $id){
         $user = User::find($id);
         $user->delete();
         return redirect()->route('user_list');
