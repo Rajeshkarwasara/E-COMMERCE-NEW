@@ -25,6 +25,7 @@ class UserController extends Controller
 
     public function image_update(Request $request)
     {
+        
         if ($request->hasFile('profile') && $request->file('profile')->isValid()) {
             $imgName = 'lv_' . rand() . '.' . $request->file('profile')->extension();
             $request->file('profile')->move(public_path('profiles'), $imgName);

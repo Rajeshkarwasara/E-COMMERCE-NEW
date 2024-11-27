@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -39,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::POST('/user_detail_update', [UserController::class, "user_detail_update"])->name("user_detail_update");
 
 
+
 });
 
 
@@ -51,6 +53,8 @@ Route::middleware(['CheckRoles'])->prefix('admin')->group(function () {
     Route::post('/add_img_edit/{id}', [AdminController::class, 'add_img_edit'])->name('add_img_edit');
     Route::delete('/user_delet/{id}', [AdminController::class, 'user_delet'])->name('user_delet');
     Route::post('/admin_detail_update/{id}', [AdminController::class, 'admin_detail_update'])->name('admin_detail_update');
+
+    Route::resource('brands',BrandsController::class);
 });
 
 
