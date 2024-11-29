@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,7 @@ Route::middleware(['CheckRoles'])->prefix('admin')->group(function () {
     Route::post('/admin_detail_update/{id}', [AdminController::class, 'admin_detail_update'])->name('admin_detail_update');
 
     Route::resource('brands',BrandsController::class);
+    Route::resource('product',ProductController::class);
 });
 
 

@@ -98,19 +98,14 @@ class BrandsController extends Controller
     public function destroy($id)
     {
         try {
-            // Find the brand by ID
             $brand = Brands::findOrFail($id);
     
-            // Toggle the status between 'active' and 'inactive'
             $brand->status = $brand->status === 'inactive' ? 'active' : 'inactive';
     
-            // Save the updated status
             $brand->save();
     
-            // Redirect back to the brands index with a success message
             return redirect()->route('brands.index')->with('success', 'Brand status updated successfully.');
         } catch (\Exception $e) {
-            // If an error occurs, return the error message
             return redirect()->route('brands.index')->with('error', 'Failed to update brand status.');
         }
     }

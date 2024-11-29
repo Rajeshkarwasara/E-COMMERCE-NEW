@@ -31,6 +31,8 @@
             .card.mb-4 {
                   box-shadow: 0px -5px 25px 6px rgb(6 6 6 / 30%);
             }
+
+        
       </style>
 </head>
 
