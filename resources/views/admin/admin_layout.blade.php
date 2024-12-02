@@ -12,6 +12,15 @@
         rel="stylesheet" />
     <link href='{{asset("css/styles.css")}}' rel="stylesheet" />
     <script src='{{asset("https://use.fontawesome.com/releases/v6.3.0/js/all.js")}}' crossorigin="anonymous"></script>
+
+    <style>
+        img#product_imge {
+            height: 100px;
+            width: 100px;
+            border-radius: 55px;
+        }
+
+    </style>
 </head>
 
 <body class="sb-nav-fixed">

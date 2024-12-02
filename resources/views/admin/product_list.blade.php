@@ -49,39 +49,54 @@
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Sale Price</th>
-                            <th>Color</th>
-                            <th>Brand</th>
-                            <th>Gender</th>
-                            <th>Function</th>
-                            <th>Stock</th>
-                            <th>Action</th>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Sale Price</th>
+                                <th>Color</th>
+                                <th>Brand</th>
+                                <th>Gender</th>
+                                <th>Function</th>
+                                <th>Stock</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
 
-                        
+
+
+                            @foreach ($brand as $item)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    
+                                    <td>{{$item->product_code}}</td>
+                                    <td>{{$item->name}}</td>
+                                    <td>{{$item->price}}</td>
+                                    <td>{{$item->sale_price}}</td>
+                                    <td>{{$item->color}}</td>
+                                    <td>{{$item->brand_name}}</td>
+                                    <td>{{$item->gender}}</td>
+                                    <td>{{$item->function}}</td>
+                                    <td>{{$item->stock}}</td>
                                     <td>
-                                        <a href="#" class="btn btn-primary">Edit</a>
+                                        <a href="{{route('product.edit',$item->id)}}" class="btn btn-primary">Edit</a>
+                                        <form action="{{ route('product.destroy', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <!-- Override POST method with DELETE for resourceful route -->
+                                            <button type="submit"
+                                                class="btn btn-sm btn-{{ $item->status == 'inactive' ? 'success' : 'danger' }}"
+                                                onclick="return confirm('Are you sure you want to {{ $item->status == 'inactive' ? 'activate' : 'deactivate' }} this product?')">
+                                                {{ $item->status == 'inactive' ? 'Activate' : 'Deactivate' }}
+                                            </button>
+                                        </form>
+
                                     </td>
                                 </tr>
+                            @endforeach
 
-                            
+
+
+
 
 
 

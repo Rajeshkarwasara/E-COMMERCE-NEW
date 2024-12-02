@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brands;
 use App\Models\product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -13,7 +14,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product_list');
+        $brand = DB::table('products')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->select('products.*', 'brands.name as brand_name')
+            ->get();
+        return view('admin.product_list', compact('brand'));
     }
     /**
      * Show the form for creating a new resource.
@@ -61,8 +66,7 @@ class ProductController extends Controller
                 'image' => $imgName,
             ]);
             return redirect()->route('product.index')->with('success', 'product Created Successfully.');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
     }
@@ -78,26 +82,40 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(product $product)
+    public function edit($id)
     {
-        //
+        
+        $data = DB::table('products')
+        ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+        ->select('products.*', 'brands.name as brand_name')  
+        ->where('products.id', $id)
+        ->first(); 
+        return view("admin.edit_product", compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, product $product)
+    public function update(Request $request,$id)
     {
-        //
+    
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-       
+        try {
+            $product = product::findOrFail($id);
 
+            $product->status = $product->status === 'inactive' ? 'active' : 'inactive';
 
+            $product->save();
+
+            return redirect()->route('product.index')->with('success', 'Brand status updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('product.index')->with('error', 'Failed to update brand status.');
+        }
     }
 }
