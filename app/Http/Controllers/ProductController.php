@@ -49,8 +49,8 @@ class ProductController extends Controller
                 'image' => 'required|',
             ]);
             if ($request->hasFile('image')) {
-                $imgName = 'lv_' . rand() . '.' . $request->image->extension();
-                $request->image->move(public_path('products/'), $imgName);
+                $imageName = 'lv_' . rand() . '.' . $request->image->extension();
+                $request->image->move(public_path('products/'), $imageName);
             }
             product::create([
                 'name' => $request->name,
@@ -63,7 +63,7 @@ class ProductController extends Controller
                 'function' => $request->function,
                 'stock' => $request->stock,
                 'description' => $request->description,
-                'image' => $imgName,
+                'image' => $imageName,
             ]);
             return redirect()->route('product.index')->with('success', 'product Created Successfully.');
         } catch (\Exception $e) {
@@ -84,21 +84,33 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        
+
         $data = DB::table('products')
-        ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
-        ->select('products.*', 'brands.name as brand_name')  
-        ->where('products.id', $id)
-        ->first(); 
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->select('products.*', 'brands.name as brand_name')
+            ->where('products.id', $id)
+            ->first();
         return view("admin.edit_product", compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-    
+        $data = product::find($id);
+        if ($request->hasFile('image')) {
+            if ($data->image && \Storage::exists('images/' . $data->image)) {
+                \Storage::delete('images/' . $data->image);
+            }
+
+
+            $imageName = 'lv_' . rand() . '.' . $request->image->extension();
+            $request->image->move(public_path('products/'), $imageName);
+        }
+        $data->update(array_merge($request->all(), ['image' => $imageName ?? $data->image]));
+        return redirect()->route("product.index")->with('success', 'brand update successfully!');
+
     }
 
     /**

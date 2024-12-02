@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\country;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
+use Database\Seeders\ProductSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,5 +28,7 @@ class DatabaseSeeder extends Seeder
             'country_name' => $faker->country(),
             // 'country_name' => "india",
         ]);
+
+        $this->call(ProductrSeeder::class);
     }
 }

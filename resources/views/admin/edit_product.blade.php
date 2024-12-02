@@ -10,7 +10,7 @@
             <li class="breadcrumb-item"><a href="">Products List</a></li>
             <li class="breadcrumb-item active">Products</li>
         </ol>
-        <div class="card mb-4">
+        <div class="">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 Add Product
@@ -22,8 +22,9 @@
                         <div class="card border-success" style="max-width: 75rem;padding: 2%;">
 
                             <div class="card-body">
-                                <form method="POST" action="" enctype="multipart/form-data">
+                                <form method="POST" action="{{route('product.update',$data->id)}}" enctype="multipart/form-data">
                                     @csrf
+                                    @method('PUT')
                                     <div class="row mb-3">
                                         <div class="col">
                                             <label for="name" class="form-label">Product Name</label>
