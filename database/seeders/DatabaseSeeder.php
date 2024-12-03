@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use App\Models\country;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Database\Seeders\ProductSeeder;
+use Database\Seeders\ProductrSeeder;
 
 class DatabaseSeeder extends Seeder
 {

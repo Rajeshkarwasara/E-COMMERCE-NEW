@@ -34,8 +34,8 @@ Route::post('ProcessResetPassword', [AuthController::class, "ProcessResetPasswor
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/index', [IndexController::class, "index"])->name("index");
+    Route::get('/product_view/{product}', [IndexController::class, "product_view"])->name("product_view");
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
     Route::get('/profile', [UserController::class, "user_profile"])->name("user_profile");
     Route::POST('/image_update', [UserController::class, "image_update"])->name("image_update");
     Route::POST('/user_detail_update', [UserController::class, "user_detail_update"])->name("user_detail_update");
