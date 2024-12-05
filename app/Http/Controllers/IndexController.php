@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brands;
 use App\Models\product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,5 +40,11 @@ class IndexController extends Controller
          ->get();
       
       return view('product_view',compact('product','singleproduct'));
+   }
+
+
+   public function product_list(){
+      $data= Brands::select('id','name')->get();
+      return view('product_list',compact('data'));
    }
 }
