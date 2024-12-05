@@ -3,9 +3,8 @@
 
 <style>
     .form-row {
-    display: flex
-;
-}
+        display: flex;
+    }
 </style>
 
 <!-- Header-->
@@ -24,7 +23,8 @@
         <div class="card box" style="width: 75rem;">
             <h5 class="card-header">FILTER BY</h5>
             <div class="card-body">
-                <form name="search_by_detail" method="post" enctype="multipart/form-data">
+                <form name="search_by_detail" method="get" enctype="multipart/form-data"
+                    action="{{route('product_list')}}">
                     <div class="form-row">
                         <div class="form-group col-md m-1">
                             <label><b>Gender:</b></label>
@@ -52,18 +52,18 @@
                             <select class="form-select" name="color" id="color" aria-label="color filter">
                                 <option selected disabled>Select</option>
                                 @foreach (\Illuminate\Support\Facades\Config::get('color') as $value)
-                                <option value="{{$value}}">{{$value}}</option>
+                                    <option value="{{$value}}">{{$value}}</option>
                                 @endforeach
-                               
-                               
+
+
                             </select>
                         </div>
                         <div class="form-group col-md m-1">
                             <label><b>Function:</b></label>
                             <select class="form-select" name="function" id="function" aria-label="function filter">
-                            <option selected disabled>Select</option>
+                                <option selected disabled>Select</option>
                                 @foreach (\Illuminate\Support\Facades\Config::get('return_function') as $value)
-                                <option value="{{$value}}">{{$value}}</option>
+                                    <option value="{{$value}}">{{$value}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -72,10 +72,10 @@
                             <select class="form-select" name="brand" id="brand" aria-label="brand filter">
                                 <option selected disabled>Select</option>
                                 @foreach ($data as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
-                              
-                             
+
+
                             </select>
                         </div>
                         <div class="form-group col-md m-1">
@@ -91,9 +91,9 @@
                     </div>
                     <div class="text-center mt-3">
                         <input type="submit" class="btn btn-success btn-sm" name="search" value="Search" id="search"
-                               style="width:8rem;color: #ffffff">
-                        <input type="reset" class="btn btn-warning btn-sm" name="reset_filters" value="Clear Filters" id="reset_filters"
-                               style="width:8rem;color: #ffffff">
+                            style="width:8rem;color: #ffffff">
+                        <input type="reset" class="btn btn-warning btn-sm" name="reset_filters" value="Clear Filters"
+                            id="reset_filters" style="width:8rem;color: #ffffff">
                     </div>
                 </form>
             </div>
@@ -106,58 +106,51 @@
 
 
 
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
-                    </div>
+            @foreach ($products as $item)
 
 
-                    <!-- Product image-->
-                    <img class="card-img-top" src="" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">phone</h5>
-                            <!-- Product price-->
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Sale badge-->
+                        @if (empty($item->sale_price) and $item->stock != 0)
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
+                            </div>
+                        @elseif($item->stock = 0){
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">out of
+                                stoke
+                                }
+                        @endif
 
-                            <span class="text-muted text-decoration-line-through">$78</span>
-                            $989
-
-
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{$item->image}}" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{$item->name}}</h5>
+                                    <!-- Product price-->
+                                    @if (empty($item->sale_price))
+                                        <span class="text-muted text-decoration-line-through">{{"$" . $item->price}}</span>
+                                        {{"$" . $item->sale_price}}
+                                    @else{{$item->price}}
+                                    @endif
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto"
+                                        href="{{route('product_view', ["product" => $item->id])}}">View
+                                        Product</a></div>
+                            </div>
                         </div>
                     </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="">View
-                                Product</a></div>
-                    </div>
+            @endforeach
+
+                <div class="paginationnn">
+                    {{ $products->links() }}
                 </div>
-            </div>
 
-            <div class="d-grid gap-2 col-6 mx-auto">
-            <nav aria-label="pagination ">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
             </div>
-
         </div>
-    </div>
 </section>
 @endsection
