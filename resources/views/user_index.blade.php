@@ -1,5 +1,11 @@
 @extends('layout_user')
 @section("content")
+<style>
+    img.card-img-top {
+    width: 71%;
+    margin: auto;
+}
+</style>
 <!-- Header-->
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -28,7 +34,7 @@
                         @endif
 
                         <!-- Product image-->
-                        <img class="card-img-top" src="{{$item->image}}" alt="..." />
+                        <img class="card-img-top" src="{{asset('products/' . $item->image) }}" alt="..." />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -36,7 +42,7 @@
                                 <h5 class="fw-bolder">{{$item->name}}</h5>
                                 <!-- Product price-->
                                 @if (empty($item->sale_price))
-                                    <span class="text-muted text-decoration-line-through">{{"$".$item->price}}</span>
+                                    <span class="text-muted text-decoration-line-through">{{"$" . $item->price}}</span>
                                     {{"$".$item->sale_price}}
                                     @else{{$item->price}}
                                 @endif
@@ -45,7 +51,8 @@
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{route('product_view',["product"=>$item->id])}}">View
-                                    Product</a></div>
+                                    Product</a>
+                            </div>
                         </div>
                     </div>
                 </div>

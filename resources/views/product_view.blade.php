@@ -5,11 +5,15 @@
     .hide {
         height: 15vh;
     }
+    .col-md-6 {
+    width: 34%;
+    margin-left: 50px;
+}
 </style>
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ $singleproduct->image }}"
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{asset('products/' . $singleproduct->image)}}"
                     alt="Product Image" /></div>
             <div class="col-md-6">
                 <div class="small mb-1">{{ $singleproduct->product_code }}</div>
@@ -53,7 +57,7 @@
                     @endif
 
                         <!-- Product image-->
-                        <img class="card-img-top" src="{{$item->image}}" alt="..." />
+                        <img class="card-img-top" src="{{asset('products/' . $item->image) }}" alt="..." />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
